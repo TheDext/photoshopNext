@@ -1,49 +1,39 @@
-import React, { FC } from 'react';
-import * as classes from './styles.module.scss';
+'use client';
+import React, { FC, useState } from 'react';
+import { TextFieldProps } from '@/src/components/common/textField/textField.props';
 
-interface TextFieldProps {
-    label?: string;
-    placeholder: string;
-    type: string;
-    value: string;
-    name: string;
-    disabled?: boolean;
-    error?: string;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export const TextField: FC<TextFieldProps> = ({
-    label,
-    placeholder,
-    type,
-    value,
+const InputField: FC<TextFieldProps> = ({
+    type = 'text',
+    placeholder = 'Введите текст',
+    label = null,
     name,
-    error,
-    disabled,
     onChange,
+    value,
+    ...props
 }) => {
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(event);
+    const [inputValue, setInputValue] = useState(value || '');
+
+    const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(target.value);
+        if (onChange) {
+            onChange(target.value);
+        }
     };
 
     return (
-        <div className={classes.textField}>
-            {label && (
-                <label htmlFor="" className="text-field__label">
-                    {label}
-                </label>
-            )}
+        <div className="input-field">
+            {label && <label htmlFor="input">{label}</label>}
             <input
-                className="text-field__input"
-                type={type}
                 name={name}
-                value={value}
-                onChange={handleChange}
-                autoComplete="off"
-                disabled={disabled}
+                type={type}
                 placeholder={placeholder}
+                id="input"
+                value={inputValue}
+                onChange={handleChange}
+                {...props}
             />
-            {error && <div className="text-field__error">{error}</div>}
         </div>
     );
 };
+
+export default InputField;

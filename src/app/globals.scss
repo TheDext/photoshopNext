@@ -4,8 +4,18 @@ body {
   overflow-x: hidden;
 }
 
+main {
+  display: flex;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+._container {
+  max-width: 1490px;
+  padding: 0 20px;
+  margin: 0 auto;
 }
